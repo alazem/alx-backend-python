@@ -1,9 +1,19 @@
 import sqlite3 
 import functools
-
+from datetime import Datetime
 
 def with_db_connection(func):
-    """ your code goes here""" 
+   @functools.wraps(func)
+    def wrapper(*args,**kwargs)
+      conn = sqlite3.connect(user.db)
+      try:   
+          result= func(conn, *args, **kwargs)
+          return result
+      finally:
+          conn.close()
+    return wrapper
+       
+     
 
 @with_db_connection 
 def get_user_by_id(conn, user_id): 
